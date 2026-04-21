@@ -54,7 +54,7 @@
 
                         <div>
                             <label class="text-[11px] font-bold uppercase text-slate-400 ml-1">Nama Barang</label>
-                            <input type="text" id="namaBarang" placeholder="Contoh: Gula Pasir" class="w-full border border-slate-200 p-3 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none">
+                            <input type="text" id="namaBarang" placeholder="Contoh: Solar" class="w-full border border-slate-200 p-3 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none">
                         </div>
 
                         <div>
@@ -216,32 +216,42 @@ dataDenganSaldo.reverse().forEach(item => {
         document.getElementById("isiTabel").innerHTML = html || '<tr><td colspan="7" class="p-10 text-center">Belum ada riwayat.</td></tr>';
     }
 
-    async function simpanBarang() {
-        const id = document.getElementById("editId").value;
-        const status = document.getElementById("statusBarang").value;
-        let qty = parseInt(document.getElementById("jumlah").value);
+async function simpanBarang() {
+    const id = document.getElementById("editId").value;
+    const status = document.getElementById("statusBarang").value; // Mengambil pilihan MASUK/KELUAR
+    let qty = parseInt(document.getElementById("jumlah").value);
 
-        if(status === "KELUAR") qty = -Math.abs(qty);
-        else qty = Math.abs(qty);
+    // LOGIKA PENTING: Jika dropdown KELUAR dipilih, paksa angka menjadi negatif
+    if (status === "KELUAR") {
+        qty = -Math.abs(qty); // Menjamin angka menjadi negatif (contoh: -10)
+    } else {
+        qty = Math.abs(qty);  // Menjamin angka tetap positif (contoh: 10)
+    }
 
-        const data = {
-            action: id ? "edit" : "add",
-            id: id ? parseInt(id) : null, // Jika "add", biarkan database buat ID baru
-            nama: document.getElementById("namaBarang").value.trim(),
-            jumlah: qty,
-            kategori: document.getElementById("kategori").value.trim(),
-            tanggal: document.getElementById("tanggalInput").value
-        };
+    const data = {
+        action: id ? "edit" : "add",
+        id: id ? parseInt(id) : null,
+        nama: document.getElementById("namaBarang").value.trim(),
+        jumlah: qty, // Angka yang sudah diproses (+ atau -) dikirim ke sini
+        kategori: document.getElementById("kategori").value.trim(),
+        tanggal: document.getElementById("tanggalInput").value
+    };
 
-        if(!data.nama || !data.jumlah || !data.tanggal) return alert("⚠️ Isi semua kolom!");
-        
-        document.getElementById("btnSimpan").innerText = "SEDANG MENYIMPAN...";
-        document.getElementById("btnSimpan").disabled = true;
-        
+    if(!data.nama || isNaN(qty) || !data.tanggal) return alert("⚠️ Isi semua kolom dengan benar!");
+    
+    document.getElementById("btnSimpan").innerText = "SEDANG MENYIMPAN...";
+    document.getElementById("btnSimpan").disabled = true;
+    
+    try {
         await fetch(WEB_APP_URL, { method: "POST", body: JSON.stringify(data) });
         resetForm(false);
-        muatData();
+        muatData(); // Memuat ulang tabel setelah data masuk
+    } catch (error) {
+        alert("Gagal menyimpan data!");
+        document.getElementById("btnSimpan").disabled = false;
+        document.getElementById("btnSimpan").innerText = "SIMPAN DATA";
     }
+}
 
     function siapkanEdit(id, nama, jumlah, kategori, tanggal) {
         document.getElementById("editId").value = id;
