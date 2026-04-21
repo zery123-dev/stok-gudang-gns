@@ -7,412 +7,298 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
 </head>
 
-<body class="bg-slate-50 font-sans text-slate-900">
-    <header class="bg-blue-800 text-white shadow-lg py-6 mb-8">
-        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
-            <div>
-                <h1 class="text-3xl font-extrabold tracking-tight">PT. GULA NUSANTARA SUKSES</h1>
-                <p class="text-blue-200 text-sm italic">Sistem Manajemen Stok Gudang Terintegrasi</p>
-            </div>
-            <i class="fas fa-warehouse text-4xl opacity-50"></i>
+<body class="bg-[#f8fafc] text-slate-900">
+    <header class="bg-blue-900 text-white shadow-2xl py-10 mb-8 relative overflow-hidden">
+        <div class="absolute right-0 top-0 opacity-10 translate-x-10 -translate-y-10">
+            <i class="fas fa-warehouse text-[200px]"></i>
+        </div>
+        <div class="max-w-6xl mx-auto px-6 relative z-10">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">PT. GULA NUSANTARA SUKSES</h1>
+            <p class="text-blue-300 mt-2 flex items-center gap-2">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                Sistem Dashboard Stok Real-Time
+            </p>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 pb-20">
+    <main class="max-w-6xl mx-auto px-4 pb-24">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
             <div class="lg:col-span-1">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 sticky top-5">
-                    <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
-                      <i class="fas fa-plus-circle text-blue-600"></i> Input Barang
+                <div class="bg-white p-6 rounded-2xl shadow-xl shadow-blue-900/5 border border-slate-100 sticky top-5">
+                    <h2 class="text-lg font-bold mb-6 flex items-center gap-2 text-blue-900">
+                        <i class="fas fa-file-signature text-blue-600"></i> Catat Barang
                     </h2>
+                    
                     <div class="space-y-4">
                         <input type="hidden" id="editId">
+                        
                         <div>
-                            <label class="text-xs font-semibold uppercase text-slate-500">Tanggal Masuk</label>
-                            <input type="date" id="tanggalInput" class="w-full border p-2.5 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition">
-                        </div>
-                        <div>
-                            <label class="text-xs font-semibold uppercase text-slate-500">Nama Barang</label>
-                            <input type="text" id="namaBarang" class="w-full border p-2.5 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition">
-
+                            <label class="text-[11px] font-bold uppercase text-slate-400 ml-1">Tanggal</label>
+                            <input type="date" id="tanggalInput" class="w-full border border-slate-200 p-3 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
                         </div>
 
                         <div>
-
-                            <label class="text-xs font-semibold uppercase text-slate-500">Jumlah Stok</label>
-
-                            <input type="number" id="jumlah" class="w-full border p-2.5 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition">
-
+                            <label class="text-[11px] font-bold uppercase text-slate-400 ml-1">Status Barang</label>
+                            <select id="statusBarang" class="w-full border border-slate-200 p-3 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none bg-white font-semibold">
+                                <option value="MASUK">➕ Barang MASUK</option>
+                                <option value="KELUAR">➖ Barang KELUAR</option>
+                            </select>
                         </div>
 
                         <div>
-
-                            <label class="text-xs font-semibold uppercase text-slate-500">Kategori</label>
-
-                            <input type="text" id="kategori" class="w-full border p-2.5 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition">
-
+                            <label class="text-[11px] font-bold uppercase text-slate-400 ml-1">Nama Barang</label>
+                            <input type="text" id="namaBarang" placeholder="Contoh: Gula Pasir" class="w-full border border-slate-200 p-3 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none">
                         </div>
 
-                       
+                        <div>
+                            <label class="text-[11px] font-bold uppercase text-slate-400 ml-1">Jumlah</label>
+                            <input type="number" id="jumlah" placeholder="0" class="w-full border border-slate-200 p-3 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none font-bold">
+                        </div>
 
-                        <button onclick="simpanBarang()" id="btnSimpan" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 shadow-md active:scale-95 transition">
+                        <div>
+                            <label class="text-[11px] font-bold uppercase text-slate-400 ml-1">Kategori</label>
+                            <input type="text" id="kategori" placeholder="Contoh: Logistik" class="w-full border border-slate-200 p-3 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none">
+                        </div>
 
+                        <button onclick="simpanBarang()" id="btnSimpan" class="w-full bg-blue-700 text-white font-bold py-4 rounded-xl hover:bg-blue-800 shadow-lg shadow-blue-200 active:scale-95 transition-all mt-4">
                             SIMPAN DATA
-
                         </button>
 
-                        <button onclick="resetForm(true)" id="btnBatal" class="w-full hidden bg-slate-200 text-slate-700 font-bold py-2 rounded-lg hover:bg-slate-300 transition">
-
+                        <button onclick="resetForm(true)" id="btnBatal" class="w-full hidden bg-slate-100 text-slate-500 font-bold py-3 rounded-xl hover:bg-slate-200 transition-all border border-slate-200">
                             BATAL EDIT
-
                         </button>
-
                     </div>
-
                 </div>
-
             </div>
 
+            <div class="lg:col-span-3 space-y-6">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+                        <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Total Masuk</p>
+                        <p id="totalMasuk" class="text-2xl font-black text-emerald-700">0</p>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-2xl border border-red-100">
+                        <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest">Total Keluar</p>
+                        <p id="totalKeluar" class="text-2xl font-black text-red-700">0</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 col-span-2 md:col-span-1">
+                        <p class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Sisa Stok Gudang</p>
+                        <p id="totalSisa" class="text-2xl font-black text-blue-700">0</p>
+                    </div>
+                </div>
 
-
-            <div class="lg:col-span-3">
-
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-
-                    <div class="p-4 border-b border-slate-100 flex flex-col md:flex-row gap-4 justify-between bg-slate-50/50">
-
-                        <div class="relative w-full md:w-72">
-
-                            <i class="fas fa-search absolute left-3 top-3.5 text-slate-400"></i>
-
-                           <input type="text" id="cariBarang" oninput="filterTabel()" placeholder="Cari nama barang..." class="pl-10 w-full border p-2.5 rounded-full text-sm outline-none focus:ring-2 focus:ring-blue-400 shadow-sm">
-
+                <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
+                    <div class="p-5 border-b border-slate-50 flex flex-col md:flex-row gap-4 justify-between bg-white">
+                        <div class="relative w-full md:w-80">
+                            <i class="fas fa-search absolute left-4 top-4 text-slate-300"></i>
+                            <input type="text" id="cariBarang" oninput="filterTabel()" placeholder="Cari barang..." class="pl-11 w-full border border-slate-100 p-3.5 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-blue-50 focus:border-blue-400 transition-all shadow-inner bg-slate-50/50">
                         </div>
 
                         <div class="flex gap-2">
-
-                            <button onclick="muatData()" class="p-2.5 bg-white border rounded-lg hover:bg-slate-100 shadow-sm"><i class="fas fa-sync-alt"></i></button>
-
-                            <button onclick="exportExcel()" class="bg-emerald-600 text-white px-5 py-2.5 rounded-lg hover:bg-emerald-700 shadow-md font-semibold text-sm flex items-center gap-2 transition">
-
+                            <button onclick="muatData()" class="p-3.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-500 shadow-sm transition-all"><i class="fas fa-sync-alt"></i></button>
+                            <button onclick="exportExcel()" class="bg-emerald-600 text-white px-6 py-3.5 rounded-xl hover:bg-emerald-700 shadow-lg shadow-emerald-200 font-bold text-sm flex items-center gap-2 transition-all active:scale-95">
                                 <i class="fas fa-file-excel"></i> Export Excel
-
                             </button>
-
                         </div>
-
                     </div>
-
-
 
                     <div class="overflow-x-auto">
+    <table class="w-full text-left" id="tabelStok">
+        <thead class="bg-slate-50 text-slate-400 uppercase text-[10px] font-black tracking-widest border-b border-slate-100">
+            <tr>
+                <th class="p-5">Tanggal</th>
+                <th class="p-5">Nama Barang</th>
+                <th class="p-5 text-center text-emerald-600">Masuk</th>
+                <th class="p-5 text-center text-red-500">Keluar</th>
+                <th class="p-5 text-center text-blue-600">Sisa Stok</th>
+                <th class="p-5">Kategori</th>
+                <th class="p-5 text-center">Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="isiTabel" class="divide-y divide-slate-50">
+            </tbody>
+    </table>
+</div>
 
-                        <table class="w-full text-left" id="tabelStok">
+<script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxA8muBex5yxmkLmZRWUKSljnY4bueFQFt1KFtSFk3HOvgTh7SXF0dK_15cDdBOGCEYJw/exec";
+    let SEMUA_DATA = [];
 
-                            <thead class="bg-slate-100 text-slate-600 uppercase text-xs font-bold">
+    function formatTanggalInput(dateStr) {
+        const d = new Date(dateStr);
+        return [d.getFullYear(), (''+(d.getMonth()+1)).padStart(2,'0'), (''+d.getDate()).padStart(2,'0')].join('-');
+    }
 
-                                <tr>
+    async function muatData() {
+        const tbody = document.getElementById("isiTabel");
+        tbody.innerHTML = '<tr><td colspan="7" class="p-20 text-center"><i class="fas fa-circle-notch fa-spin text-4xl text-blue-500"></i><p class="mt-4">Memuat Riwayat Transaksi...</p></td></tr>';
+        try {
+            const response = await fetch(WEB_APP_URL);
+            const dataMentah = await response.json();
 
-                                    <th class="p-4">Nama Barang</th>
+            // URUTKAN BERDASARKAN TANGGAL (Terlama ke Terbaru) untuk menghitung saldo yang benar
+            // Tapi nanti ditampilkan Terbaru di atas
+            SEMUA_DATA = dataMentah.sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal));
+            
+            renderTabel(SEMUA_DATA);
+            hitungTotal(SEMUA_DATA);
+        } catch (error) {
+            tbody.innerHTML = '<tr><td colspan="7" class="p-10 text-center text-red-500">Gagal memuat data.</td></tr>';
+        }
+    }
 
-                                    <th class="p-4 text-center">Stok</th>
+    function hitungTotal(data) {
+        let masuk = 0, keluar = 0;
+        data.forEach(i => {
+            if(i.jumlah > 0) masuk += i.jumlah;
+            else keluar += Math.abs(i.jumlah);
+        });
+        document.getElementById("totalMasuk").innerText = masuk;
+        document.getElementById("totalKeluar").innerText = keluar;
+        document.getElementById("totalSisa").innerText = masuk - keluar;
+    }
 
-                                    <th class="p-4">Kategori</th>
+    function renderTabel(data) {
+        let html = "";
+        let saldoPerBarang = {}; // Objek untuk menyimpan sisa stok berjalan tiap nama barang
 
-                                    <th class="p-4 text-center">Tanggal</th>
+        // Kita hitung saldo berjalan dari data terlama ke terbaru
+        let dataDenganSaldo = data.map(item => {
+            const nama = item.nama;
+            if (!saldoPerBarang[nama]) saldoPerBarang[nama] = 0;
+            
+            saldoPerBarang[nama] += item.jumlah; // Tambah (jika masuk) atau Kurang (jika keluar/negatif)
+            
+            return { ...item, sisaBerjalan: saldoPerBarang[nama] };
+        });
 
-                                    <th class="p-4 text-center">Aksi</th>
-
-                                </tr>
-
-                            </thead>
-
-                            <tbody id="isiTabel" class="divide-y divide-slate-100"></tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
+// Tampilkan data: Terbaru di atas (Reverse)
+dataDenganSaldo.reverse().forEach(item => {
+    const tgl = item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', {day:'2-digit', month:'short', year:'numeric'}) : "-";
+    
+    // Logika pemisah yang lebih tegas
+    const isMasuk = item.jumlah > 0;
+    const isKeluar = item.jumlah < 0; 
+    
+    html += `<tr class="hover:bg-blue-50/50 transition-all group">
+        <td class="p-5 text-xs text-slate-500">${tgl}</td>
+        <td class="p-5 font-bold text-slate-700">${item.nama}</td>
+        
+        <td class="p-5 text-center text-emerald-600 font-semibold">
+            ${isMasuk ? item.jumlah : '-'}
+        </td>
+        
+        <td class="p-5 text-center text-red-500 font-semibold">
+            ${isKeluar ? Math.abs(item.jumlah) : '-'}
+        </td>
+        
+        <td class="p-5 text-center">
+            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-lg font-black border border-blue-100">
+                ${item.sisaBerjalan}
+            </span>
+        </td>
+        <td class="p-5 uppercase text-[10px] font-bold text-slate-400 tracking-wider">${item.kategori || 'UMUM'}</td>
+        <td class="p-5 text-center">
+            <div class="flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                <button onclick="siapkanEdit(${item.id}, '${item.nama}', ${item.jumlah}, '${item.kategori}', '${item.tanggal}')" class="text-blue-500 hover:bg-blue-100 p-2 rounded-lg"><i class="fas fa-edit text-xs"></i></button>
+                <button onclick="hapusBarang(${item.id})" class="text-red-400 hover:bg-red-100 p-2 rounded-lg"><i class="fas fa-trash text-xs"></i></button>
             </div>
-
-        </div>
-
-    </main>
-
-
-
-    <script>
-
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxA8muBex5yxmkLmZRWUKSljnY4bueFQFt1KFtSFk3HOvgTh7SXF0dK_15cDdBOGCEYJw/exec";
-
-        let SEMUA_DATA = [];
-
-
-
-        // Fungsi bantu format tanggal ke YYYY-MM-DD
-
-        function formatTanggalInput(dateStr) {
-
-            const d = new Date(dateStr);
-
-            const month = '' + (d.getMonth() + 1);
-
-            const day = '' + d.getDate();
-
-            const year = d.getFullYear();
-
-            return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-');
-
-        }
-
-
-
-async function muatData() {
-
-            const tbody = document.getElementById("isiTabel");
-
-            tbody.innerHTML = '<tr><td colspan="5" class="p-10 text-center"><i class="fas fa-spinner fa-spin text-2xl text-blue-500"></i></td></tr>';
-
-            try {
-
-                const response = await fetch(WEB_APP_URL);
-
-                const dataMentah = await response.json();
-
-               
-
-                // --- BAGIAN PENGURUTAN (A-Z) ---
-
-                SEMUA_DATA = dataMentah.sort((a, b) => {
-
-                    return a.nama.localeCompare(b.nama);
-
-                });
-
-                // -------------------------------
-
-
-
-                renderTabel(SEMUA_DATA);
-
-            } catch (error) {
-
-                tbody.innerHTML = '<tr><td colspan="5" class="p-10 text-center text-red-500 italic">Gagal memuat database.</td></tr>';
-
-            }
-
-        }
-
-
-
-        function renderTabel(data) {
-
-            let html = "";
-
-            data.forEach(item => {
-
-                const tgl = item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID') : "-";
-
-                html += `<tr class="hover:bg-blue-50 transition group">
-
-                    <td class="p-4 font-semibold text-slate-700">${item.nama}</td>
-
-                    <td class="p-4 text-center"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-bold">${item.jumlah}</span></td>
-
-                    <td class="p-4"><span class="text-xs bg-slate-200 px-2 py-1 rounded text-slate-600">${item.kategori}</span></td>
-
-                    <td class="p-4 text-center text-xs text-slate-500">${tgl}</td>
-
-                    <td class="p-4 text-center flex justify-center gap-2">
-
-                        <button onclick="siapkanEdit(${item.id}, '${item.nama}', ${item.jumlah}, '${item.kategori}', '${item.tanggal}')" class="text-blue-500 hover:text-blue-700 p-2"><i class="fas fa-edit"></i></button>
-
-                        <button onclick="hapusBarang(${item.id})" class="text-red-400 hover:text-red-600 p-2"><i class="fas fa-trash-alt"></i></button>
-
-                    </td>
-
-                </tr>`;
-
-            });
-
-            document.getElementById("isiTabel").innerHTML = html || '<tr><td colspan="5" class="p-5 text-center">Data tidak ditemukan.</td></tr>';
-
-        }
-
-
-
-        async function simpanBarang() {
-
-            const id = document.getElementById("editId").value;
-
-            const data = {
-
-                action: id ? "edit" : "add",
-
-                id: parseInt(id),
-
-                nama: document.getElementById("namaBarang").value,
-
-                jumlah: document.getElementById("jumlah").value,
-
-                kategori: document.getElementById("kategori").value,
-
-                tanggal: document.getElementById("tanggalInput").value
-
-            };
-
-
-
-            if(!data.nama || !data.jumlah || !data.tanggal) return alert("Lengkapi data!");
-
-
-
-            document.getElementById("btnSimpan").innerText = "PROSES...";
-
-            document.getElementById("btnSimpan").disabled = true;
-
-
-
-            await fetch(WEB_APP_URL, { method: "POST", body: JSON.stringify(data) });
-
-           
-
-            // Perbaikan Utama: Tanggal tidak di-reset ke hari ini agar bisa input data kemarin berkali-kali
-
-            resetForm(false);
-
-            muatData();
-
-        }
-
-
-
-        function siapkanEdit(id, nama, jumlah, kategori, tanggal) {
-
-            document.getElementById("editId").value = id;
-
-            document.getElementById("namaBarang").value = nama;
-
-            document.getElementById("jumlah").value = jumlah;
-
-            document.getElementById("kategori").value = kategori;
-
-           
-
-            if(tanggal) {
-
-                document.getElementById("tanggalInput").value = formatTanggalInput(tanggal);
-
-            }
-
-
-
-            document.getElementById("btnSimpan").innerText = "UPDATE DATA";
-
-            document.getElementById("btnBatal").classList.remove("hidden");
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        }
-
-
-
-        // Fungsi Reset Form yang lebih fleksibel
-
-        function resetForm(resetTanggal = true) {
-
-            document.getElementById("editId").value = "";
-
-            document.getElementById("namaBarang").value = "";
-
-            document.getElementById("jumlah").value = "";
-
-            document.getElementById("kategori").value = "";
-
-           
-
-            // Jika resetTanggal true, maka kembali ke hari ini.
-
-            // Jika false (setelah simpan), tanggal tetap pada pilihan terakhir Anda.
-
-            if(resetTanggal) {
-
-                document.getElementById("tanggalInput").value = formatTanggalInput(new Date());
-
-            }
-
-
-
-            document.getElementById("btnSimpan").innerText = "SIMPAN DATA";
-
-            document.getElementById("btnSimpan").disabled = false;
-
-            document.getElementById("btnBatal").classList.add("hidden");
-
-        }
-
-
-
-        async function hapusBarang(id) {
-
-            if(!confirm("Hapus barang ini dari gudang?")) return;
-
-            await fetch(WEB_APP_URL, { method: "POST", body: JSON.stringify({action: "delete", id: id}) });
-
-            muatData();
-
-        }
-
-
-
-        function filterTabel() {
-
-            const keyword = document.getElementById("cariBarang").value.toLowerCase();
-
-            const hasilFilter = SEMUA_DATA.filter(item => item.nama.toLowerCase().includes(keyword));
-
-            renderTabel(hasilFilter);
-
-        }
-
-
-
-        function exportExcel() {
-
-            const judul = [["LAPORAN STOK GUDANG"], ["PT. GULA NUSANTARA SUKSES"], ["Tanggal Cetak: " + new Date().toLocaleDateString('id-ID')], []];
-
-            const dataHeader = [["Nama Barang", "Jumlah Stok", "Kategori", "Tanggal"]];
-
-            const dataBody = SEMUA_DATA.map(item => [item.nama, item.jumlah, item.kategori, item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID') : "-"]);
-
-            const ws = XLSX.utils.aoa_to_sheet([...judul, ...dataHeader, ...dataBody]);
-
-            const wb = XLSX.utils.book_new();
-
-            XLSX.utils.book_append_sheet(wb, ws, "Laporan");
-
-            XLSX.writeFile(wb, "Laporan_Stok_" + new Date().getTime() + ".xlsx");
-
-        }
-
-
-
-        window.onload = () => {
-
-            // Set pertama kali ke hari ini saat buka halaman
-
-            document.getElementById("tanggalInput").value = formatTanggalInput(new Date());
-
-            muatData();
-
+        </td>
+    </tr>`;
+});
+        document.getElementById("isiTabel").innerHTML = html || '<tr><td colspan="7" class="p-10 text-center">Belum ada riwayat.</td></tr>';
+    }
+
+    async function simpanBarang() {
+        const id = document.getElementById("editId").value;
+        const status = document.getElementById("statusBarang").value;
+        let qty = parseInt(document.getElementById("jumlah").value);
+
+        if(status === "KELUAR") qty = -Math.abs(qty);
+        else qty = Math.abs(qty);
+
+        const data = {
+            action: id ? "edit" : "add",
+            id: id ? parseInt(id) : null, // Jika "add", biarkan database buat ID baru
+            nama: document.getElementById("namaBarang").value.trim(),
+            jumlah: qty,
+            kategori: document.getElementById("kategori").value.trim(),
+            tanggal: document.getElementById("tanggalInput").value
         };
 
-    </script>
+        if(!data.nama || !data.jumlah || !data.tanggal) return alert("⚠️ Isi semua kolom!");
+        
+        document.getElementById("btnSimpan").innerText = "SEDANG MENYIMPAN...";
+        document.getElementById("btnSimpan").disabled = true;
+        
+        await fetch(WEB_APP_URL, { method: "POST", body: JSON.stringify(data) });
+        resetForm(false);
+        muatData();
+    }
 
+    function siapkanEdit(id, nama, jumlah, kategori, tanggal) {
+        document.getElementById("editId").value = id;
+        document.getElementById("namaBarang").value = nama;
+        document.getElementById("jumlah").value = Math.abs(jumlah);
+        document.getElementById("kategori").value = kategori;
+        document.getElementById("statusBarang").value = jumlah > 0 ? "MASUK" : "KELUAR";
+        if(tanggal) document.getElementById("tanggalInput").value = formatTanggalInput(tanggal);
+        
+        document.getElementById("btnSimpan").innerText = "UPDATE DATA";
+        document.getElementById("btnBatal").classList.remove("hidden");
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetForm(resetTanggal = true) {
+        document.getElementById("editId").value = "";
+        document.getElementById("namaBarang").value = "";
+        document.getElementById("jumlah").value = "";
+        document.getElementById("kategori").value = "";
+        if(resetTanggal) document.getElementById("tanggalInput").value = formatTanggalInput(new Date());
+        document.getElementById("btnSimpan").innerText = "SIMPAN DATA";
+        document.getElementById("btnSimpan").disabled = false;
+        document.getElementById("btnBatal").classList.add("hidden");
+    }
+
+    async function hapusBarang(id) {
+        if(!confirm("Hapus story transaksi ini?")) return;
+        await fetch(WEB_APP_URL, { method: "POST", body: JSON.stringify({action: "delete", id: id}) });
+        muatData();
+    }
+
+    function filterTabel() {
+        const keyword = document.getElementById("cariBarang").value.toLowerCase();
+        const hasilFilter = SEMUA_DATA.filter(item => item.nama.toLowerCase().includes(keyword));
+        renderTabel(hasilFilter);
+    }
+
+    function exportExcel() {
+        const dataHeader = [["Tanggal", "Nama Barang", "Masuk", "Keluar", "Sisa Stok", "Kategori"]];
+        const dataBody = SEMUA_DATA.map(item => [
+            item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID') : "-",
+            item.nama, 
+            item.jumlah > 0 ? item.jumlah : 0, 
+            item.jumlah < 0 ? Math.abs(item.jumlah) : 0, 
+            "Dihitung Otomatis", 
+            item.kategori
+        ]);
+        const ws = XLSX.utils.aoa_to_sheet([["LAPORAN RIWAYAT STOK PT. GNS"], [], ...dataHeader, ...dataBody]);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Story Stok");
+        XLSX.writeFile(wb, "Story_Stok_GNS.xlsx");
+    }
+
+    window.onload = () => {
+        document.getElementById("tanggalInput").value = formatTanggalInput(new Date());
+        muatData();
+    };
+</script>
 </body>
-
 </html>
